@@ -13,17 +13,32 @@
 
 # Installation
 
+Packages required to run this analysis can be inmstalled from the relevant repositories by executing
+
 ```r
-install.packages(c("FLCore", "mse", "msemodules", "mseviz", "FLSRTMB",
-  "ggplotFL", "FLasher", "TAF"),
-  repos=c(FLR="https://flr.r-universe.dev", CRAN="https://cloud.r-project.org")) 
+install.deps(repos=c(FLR="https://flr.r-universe.dev",
+  CRAN="https://cloud.r-project.org"))
 ```
+
+The minimum versions needed are stored in the `boot/SOFTWARE.bib` file. A check can be carried out on whether the versions available in the system are up to date to those by calling
+
+```{r checkdeps}
+library(TAF)
+check.software()
+
+```
+
+
+## Progress
+
+The `mse` package makes use of `progressr`, if available, to report on the progress of simulation runs. To get progress bars shown for every call tp `mp()`, please run
 
 ```r
 handlers(global=TRUE)
 ```
 
-- Run first with it = cores, so that the call to mps() runs in parallel
+at the start of your session, or in your `.Rprofile` file.
+
 
 # Introduction
 
@@ -39,6 +54,8 @@ To setup and run the shortcut MSE, the user would generally take these steps:
 2. Configure and/or condition parameters of the operating model (OM) and the management procedure (MP) (`frps.R`).
 3. Run closed loop simulations of the standard ICES advice rule parameterized by the MSY Btrigger [REFERENCE] over a range of Ftarget values (`frps.R`).
 4. Derive equilibrium distributions of stock quantities (spawning biomass, catches, etc.) for each Ftarget and calculate ICES' Fp05 and Fmsy reference points (`output.R`).
+
+- Run first with it = cores, so that the call to mps() runs in parallel
 
 # Default assumptions of tool
 - Operating model (om)
