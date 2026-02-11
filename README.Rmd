@@ -28,17 +28,13 @@ check.software()
 
 ```
 
-
 ## Progress
 
-The `mse` package makes use of `progressr`, if available, to report on the progress of simulation runs. To get progress bars shown for every call tp `mp()`, please run
+The `mse` package makes use of `progressr`, if available, to report on the progress of simulation runs. Standard priogress bars are used by default as defined in the local `.Rprofile` file. To switch them off please run
 
 ```r
-handlers(global=TRUE)
+handlers(global=FALSE)
 ```
-
-at the start of your session, or in your `.Rprofile` file.
-
 
 # Introduction
 
