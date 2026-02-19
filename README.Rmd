@@ -12,10 +12,11 @@
 
 # Installation
 
-Packages required to run this analysis can be inmstalled from the relevant repositories by executing
+Packages required to run this analysis can be installed from the relevant repositories by executing
 
 ```{r, eval=FALSE}
-install.deps(repos=c(FLR="https://flr.r-universe.dev",
+install.packages("TAF", repos="https://cloud.r-project.org")
+TAF::install.deps(repos=c(FLR="https://flr.r-universe.dev",
   CRAN="https://cloud.r-project.org"))
 ```
 
@@ -178,10 +179,10 @@ om <- fwdWindow(om, end = fy, nsq = conditioning_ny)
 
 
 ## Specifying Management Procedure (MP)
-The MP is consists of three models (specified as modules within the `mpCtrl` class:  
+The MP is consists of three modules, specified as elements within the `mpCtrl` class:  
 - Estimation (`est`): a shortcut stock assessment (with SSB uncertainty). 
-- HCR (`hcr`): hockey-stick rule mapping SSB to target F with a trigger (Btrigger) and minimum floor.  
-- Implementation system (`isys`): TAC setting via a short-term forecast.  
+- HCR (`hcr`): hockey-stick rule mapping SSB to a target F with a trigger (Btrigger) and minimum (min) floor.  
+- Implementation system (`isys`): TAC setting via a one-year short-term forecast.  
 
 ```{r mp-setup, eval=FALSE}
 # General MSE arguments: timing and lags
