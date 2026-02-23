@@ -41,9 +41,9 @@ stkname <- name(run)
 srmodels <- c("segreg") # segreg, bevholt, ricker
 # Initial year of projections
 iy <- dims(run)$maxyear
-# Years to be used to compute SPR0 for stock-recruitment model, last 5
-spryrs <- seq(iy - 5, iy)
-# Data lag 
+# Years to be used to compute SPR0 for stock-recruitment model
+spryrs <- seq(dims(run)$minyear, iy)
+# Data lag
 dl <- 2
 # Management lag
 ml <- 1 
@@ -70,10 +70,9 @@ refpts <- FLPar(c(Blim = Blim, Btrigger = Btrigger))
 # TODO: no. of cores to use in parallel, defauls to 2/3 of those in machine
 cores <- round(availableCores() * 0.6)
 # TODO: F search grid
-fg_mp <- seq(0, 1.5, length=cores)
-# Number of iterations (minimum of 50 for testing, 500 for final)
-it <- cores
-# it <- max(25, cores * 25)
+fg_mp <- seq(0, 1.5, length=cores*10)
+# Number of iterations (minimum of 25 for testing, 500 for final)
+it <- max(25, cores * 50)
 # Random seed
 set.seed(987)
 
@@ -122,6 +121,21 @@ f0 <- fwd(om, control=fwdControl(quant='fbar', value=0, year=seq(iy + 1, fy)))
 # coherent with the stock-recruitment model and parameters 
 performance(f0, statistics=icestats["PBlim"])[year %in% seq(iy, fy, by=5),
   .(PBlim=mean(data)), by=year]
+
+# TEST Recruitment predictions
+# If SSB is projected to the level of the historical period used to estimate
+# the S/R parameters, recruitment should be similar to recruitment during the
+# same period
+ssbhistorical <- fwd(om, control=fwdControl(quant='ssb_nextyear', value=mean(ssb(om)[,ac(spryrs)]), year=seq(iy + 1, fy-1)))
+
+rdf0 <- rec(ssbhistorical)[,ac(fy-1)]
+rh <- iterMedians(rec(ssbhistorical)[,ac(spryrs)])
+
+ggplot(rdf0, aes(x = log(data))) +
+  geom_density(alpha = 0.4) +
+  theme_minimal() +
+  labs(title = "Overlayed Histograms", x = "Value", fill = "Category") +
+  geom_vline(data = as.data.frame(rh), aes(xintercept = log(data)), linetype = "dashed", size = 1)
 
 # COMPUTE Inter-annual variability of biomass
 # to check when biomass stabilizes and set number of years for projections
