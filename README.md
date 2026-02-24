@@ -98,7 +98,6 @@ steps:
     - Input ‘estimated’ SB from preceding year (i.e. data_lag=1) into
       ICES advice rule to obtain target F in the next year
       (i.e. management_lag=1)
-    - Target F is directly applied on OM stock
     - Target F corresponds to fbar, with the fbar age range specified in
       the input `FLStock` object
   - Implementation system (isys)
