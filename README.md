@@ -104,11 +104,12 @@ steps:
     - Short-term forecast that uses geometric mean of recruitment from
       the 3 most years
     - Applies Target F from hcr with multiplicative errors on
-      ‘estimated’ SSB
+      ‘estimated’ SSB to calculate TAC
     - Multiplicative errors on target F are generated as normally
       distributed and autocorrelated log(F) values from
       `shortcut_devs()`; default arguments are normal CV=0.212 and
       autocorrelation coefficient=0.423
+    - TAC from this forecast is applied to OM stock
 - Implementation error model (IEM)
   - No explicit IEM
 
