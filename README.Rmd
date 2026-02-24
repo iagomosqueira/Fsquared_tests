@@ -77,8 +77,9 @@ At the heart of this toolset is a shortcut MSE framework that introduces some le
     - Target F corresponds to fbar, with the fbar age range specified in the input `FLStock` object
   - Implementation system (isys)
     - Short-term forecast that uses geometric mean of recruitment from the 3 most years
-    - Applies Target F from hcr with multiplicative errors on 'estimated' SSB
-    - Multiplicative errors on target F are generated as normally distributed and autocorrelated log(F) values from `shortcut_devs()`; default arguments are normal CV=0.212 and autocorrelation coefficient=0.423 
+    - Applies Target F from hcr with multiplicative errors on 'estimated' SSB to calculate TAC
+    - Multiplicative errors on target F are generated as normally distributed and autocorrelated log(F) values from `shortcut_devs()`; default arguments are normal CV=0.212 and autocorrelation coefficient=0.423
+    - TAC from this forecast is applied to OM stock 
 - Implementation error model (IEM)
   - No explicit IEM
 
