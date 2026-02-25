@@ -69,10 +69,11 @@ Btrigger <- 1095
 refpts <- FLPar(c(Blim = Blim, Btrigger = Btrigger))
 # TODO: no. of cores to use in parallel, defauls to 2/3 of those in machine
 cores <- round(availableCores() * 0.6)
+cores <- 5
 # TODO: F search grid
 fg_mp <- seq(0, 1.5, length=cores*10)
 # Number of iterations (minimum of 25 for testing, 500 for final)
-it <- max(25, cores * 50)
+it <- max(25, cores * 100)
 # Random seed
 set.seed(987)
 
@@ -108,6 +109,9 @@ om <- FLom(stock=propagate(run, it), refpts=refpts, model="segreg",
 
 # TODO: SETUP om future: average of most recent years set by conditioning_ny
 om <- fwdWindow(om, end=fy, nsq=conditioning_ny)
+
+# SAVE
+save(om, file='model/om.rda')
 
 #===============================================================================
 # diagnostic(s)
@@ -174,9 +178,13 @@ arule <- mpCtrl(
   isys = mseCtrl(method=tac.is, args=list(recyrs=recyrs_mp, Fdevs=sdevs$F))
 )
 
+save(mseargs, arule, sdevs, file="model/arule.rda")
+
 #===============================================================================
 # Run simulations
 #===============================================================================
+
+plan(multicore, workers=10)
 
 # RUN over Ftarget grid
 fgrid <- mps(om, ctrl=arule, args=mseargs, hcr=list(target=fg_mp),
