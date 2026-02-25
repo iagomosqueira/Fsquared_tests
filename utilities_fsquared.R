@@ -9,7 +9,7 @@ icestats <- list(
 
   # C
   C=list(~C, name="Catch (t)",
-    desc="Catch inn tonnes"),
+    desc="Catch in tonnes"),
 
   # L
   L=list(~L, name="Landings (t)",

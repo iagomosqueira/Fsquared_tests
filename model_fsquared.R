@@ -187,19 +187,19 @@ save(mseargs, arule, sdevs, file="model/arule.rda")
 plan(multicore, workers=10)
 
 # RUN over Ftarget grid
-fgrid <- mps(om, ctrl=arule, args=mseargs, hcr=list(target=fg_mp),
-  names=paste0("F", fg_mp))
+# fgrid <- mps(om, ctrl=arule, args=mseargs, hcr=list(target=fg_mp),
+#  names=paste0("F", fg_mp))
 
 # PLOT
-plot(om, fgrid)
+# plot(om, fgrid)
 
 # COMPUTE average performance over pys
-performance(fgrid) <- performance(fgrid, statistics=icestats["PBlim"], year=pys,
-  type="arule")
+# performance(fgrid) <- performance(fgrid, statistics=icestats["PBlim"], year=pys,
+#   type="arule")
 
 # OR ... RUN over Ftarget grid and return only performance stats
-# fgrid <- mps(om, ctrl=arule, args=mseargs, hcr=list(target=fg_mp),
-#   names=paste("F" fg_mp), statistics=icestats, type="arule")
+fgrid <- mps(om, ctrl=arule, args=mseargs, hcr=list(target=fg_mp),
+  names=paste("F" fg_mp), statistics=icestats, type="arule")
 
 # FIND Ftarget that gives mean P(B < Blim) = 5%
 tune <- tunebisect(om, control=arule, args=mseargs,
@@ -216,5 +216,5 @@ performance(tune) <- performance(tune, statistics=icestats, type="arule", run="t
 args(control(tune, "hcr"))$target
 
 # SAVE
-save("fgrid", "om", "tune", file="model/fsquared.rda")
+save("fgrid", "om", "tune", file="model/fsquared.rda", compress="xz")
 
